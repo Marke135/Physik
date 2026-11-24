@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Grundlagen der Elektrotechnik</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f4f6f8;--fg:#14202e;--card:#fff;--mut:#5b6b7d;--line:#cfd8e1;--acc:#0b7285;--N:#2563eb;--S:#dc2626;--pos:#d98a06;--neg:#0d9488;--ok:#15803d;color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1520;--fg:#e6edf3;--card:#13212f;--mut:#93a4b6;--line:#26384a;--acc:#35c2d8;--N:#5b8dff;--S:#ff6b6b;--pos:#f5b83d;--neg:#2dd4bf;--ok:#4ade80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1520;--fg:#e6edf3;--card:#13212f;--mut:#93a4b6;--line:#26384a;--acc:#35c2d8;--N:#5b8dff;--S:#ff6b6b;--pos:#f5b83d;--neg:#2dd4bf;--ok:#4ade80;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--bg);border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;align-items:center;overflow-x:auto;padding:8px 12px;max-width:900px;margin:auto}
+nav a{color:var(--fg);text-decoration:none;padding:6px 12px;border-radius:20px;white-space:nowrap;font-weight:600}
+nav a:hover{background:var(--card)}
+main{max-width:900px;margin:auto;padding:16px 14px 40px}
+section{margin-bottom:44px}
+h1{font-size:clamp(26px,6vw,40px);line-height:1.1;margin:8px 0 10px;letter-spacing:-.02em}
+h2{font-size:26px;margin:0 0 8px}h3{margin:6px 0;font-size:17px}
+.m{color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.mc{display:block;color:inherit;text-decoration:none}.mc:hover{border-color:var(--acc)}
+.fl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:600}.fl span{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:4px 10px}
+.b{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:10px;padding:8px 12px;font:inherit;cursor:pointer;min-height:40px}
+.b:hover{border-color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+canvas{width:100%;height:150px;display:block;border:1px solid var(--line);border-radius:10px;margin:8px 0}
+svg{width:100%;max-width:320px;margin:auto;display:block}svg.w{max-width:100%}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}.row>*{flex:1 1 260px}
+input[type=range]{width:100%;accent-color:var(--acc)}
+select,input[type=text]{font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);min-height:40px}
+details{margin:10px 0}summary{cursor:pointer;font-weight:700;padding:4px 0}
+.big{font-size:22px;font-weight:700;color:var(--acc)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.o{display:block;width:100%;text-align:left;margin:8px 0}
+.ok{border-color:var(--ok);box-shadow:inset 0 0 0 2px var(--ok)}.no{border-color:var(--S);box-shadow:inset 0 0 0 2px var(--S)}
+progress{width:100%;height:10px;accent-color:var(--acc)}
+.r{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#bulb{display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--pos)}
+.bar{width:26px;height:100px;border:2px solid var(--line);border-radius:6px;position:relative;overflow:hidden;flex:none}.bar i{position:absolute;bottom:0;left:0;right:0;background:var(--acc)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body>
+<header><nav aria-label="Abschnitte"><a href="#home">⚡ Elektrotechnik</a><a href="#gen">Generator</a><a href="#netz">Netzgerät</a><a href="#motor">Motor</a><a href="#quiz">Quiz</a><a href="#tips">Spickzettel</a><button class="b" id="th" aria-label="Farbschema wechseln">◐</button><button class="b" id="pz" aria-pressed="false" aria-label="Animation pausieren">⏸</button></nav></header>
+<main>
+<section id="home"><h1>18 Grundlagen der Elektrotechnik</h1><p class="m">Drei Maschinen, ein Prinzip: Strom und Magnetfeld wirken zusammen. Tippe auf eine Karte, um zum Abschnitt zu springen.</p><div class="g" id="tb"></div></section>
+
+<section id="gen"><h2>Der Generator</h2><p>Der Rotor mit Magnetpolen dreht sich im Stator. An den Spulen laufen abwechselnd Nord- und Südpol vorbei, das Feld kehrt sich um, und es entsteht eine <b>Wechselspannung</b>: U<sub>ind</sub> = −N · ΔΦ/Δt.</p>
+<div class="row card"><svg id="gs" viewBox="0 0 240 240" role="img" aria-label="Generator: Rotor mit Nord- und Südpol im Stator mit vier Spulen">
+<circle cx="120" cy="120" r="108" fill="none" stroke="var(--line)" stroke-width="10"/>
+<g id="gc" fill="var(--pos)"><rect x="96" y="6" width="48" height="26" rx="4"/><rect x="96" y="208" width="48" height="26" rx="4"/><rect x="6" y="96" width="26" height="48" rx="4"/><rect x="208" y="96" width="26" height="48" rx="4"/></g>
+<g id="rg"></g>
+<g id="lab" fill="var(--fg)" font-size="10"><text x="148" y="22">Spule</text><text x="8" y="26">Stator</text><text x="120" y="237" text-anchor="middle">Rotor N–S–N–S</text></g></svg>
+<div><canvas id="sc" role="img" aria-label="Oszilloskop: Sinusspannung"></canvas>
+<label>Drehgeschwindigkeit<input type="range" id="sp" min="30" max="360" value="120"></label>
+<div class="r"><span id="bulb"></span><span class="m">Lampe: heller bei größerem |U|. Spulenfarbe: gelb = +, türkis = −</span></div>
+<p class="m" id="ro"></p><button class="b" id="lb" aria-pressed="true">Beschriftung: an</button></div></div></section>
+
+<section id="netz"><h2>Vom Wechselstrom zum Gleichstrom: das Netzgerät</h2><p class="m">Die Steckdose liefert 230 V Wechselspannung, das Handy braucht eine kleine Gleichspannung. So sieht das Signal nach jedem Schritt aus:</p>
+<div class="card"><svg id="pl" class="w" viewBox="0 0 480 100" role="img" aria-label="Signalverlauf: 230 V Wechselspannung, Trafo, 7 V Wechselspannung, Brücke, pulsierender Gleichstrom, Glättung, geglättete Gleichspannung"></svg></div>
+<details open class="card"><summary>Schritt 1: Transformator verkleinert die Spannung</summary><p>Zwei Spulen auf einem Eisenkern: Das wechselnde Feld der Primärspule induziert in der Sekundärspule eine Spannung. U<sub>S</sub>/U<sub>P</sub> = N<sub>S</sub>/N<sub>P</sub>. Mit Gleichstrom funktioniert das nicht: kein sich änderndes Feld, keine Induktion.</p>
+<svg id="tsv" viewBox="0 0 260 160" role="img" aria-label="Transformator mit zwei Spulen auf einem Eisenkern"></svg>
+<label>N<sub>P</sub> (Primärspule): <b id="v1"></b><input type="range" id="n1" min="200" max="2000" step="50" value="1150"></label>
+<label>N<sub>S</sub> (Sekundärspule): <b id="v2"></b><input type="range" id="n2" min="5" max="200" value="35"></label>
+<p class="big" id="u2"></p><p class="m">Die Spulenbilder sind schematisch (Windungen nicht maßstäblich).</p></details>
+<details class="card"><summary>Schritt 2: Brückengleichrichter legt die Stromrichtung fest</summary><p>Eine Diode ist ein „Stromventil“. Vier Dioden „klappen“ die negativen Halbwellen nach oben: pulsierender Gleichstrom.</p>
+<div class="row"><svg id="br" viewBox="0 0 240 150" role="img" aria-label="Brückenschaltung aus vier Dioden"></svg><div><canvas id="c2" role="img" aria-label="Sinus und gleichgerichtete Spannung"></canvas><p class="m" id="bs"></p><p class="m">Gestrichelt: Wechselspannung. Linie: nach der Brücke (Zeitlupe). Punkt = jetzt.</p></div></div></details>
+<details class="card"><summary>Schritt 3: Der Kondensator glättet</summary><p>Er lädt sich an jedem Gipfel auf und gibt in den Tälern Ladung ab. Es bleibt nur die kleine Brummspannung U<sub>Brumm</sub>.</p>
+<div class="r"><div class="bar" title="Ladung" role="img" aria-label="Ladestand des Kondensators"><i id="lv"></i></div><div style="flex:1;min-width:200px"><canvas id="c3" role="img" aria-label="Geglättete Spannung mit Restwelligkeit"></canvas></div></div>
+<p class="m" id="cs2"></p><label>Kapazität C<sub>L</sub><input type="range" id="cc" min="1" max="10" value="3"></label><p class="big" id="rp"></p></details></section>
+
+<section id="motor"><h2>Der Elektromotor</h2><p>Ein Leiter quer zu den Feldlinien erfährt die <b>Lorentzkraft F<sub>L</sub> = I · l · B</b>. Die beiden Spulenseiten werden in entgegengesetzte Richtungen gedrückt: Drehmoment.</p>
+<div class="row card"><svg id="ms2" viewBox="0 0 260 215" role="img" aria-label="Gleichstrommotor mit Spule, Kommutator und Bürsten">
+<rect x="6" y="28" width="56" height="134" rx="8" fill="var(--S)"/><rect x="198" y="28" width="56" height="134" rx="8" fill="var(--N)"/>
+<g fill="#fff" font-size="22" font-weight="700" text-anchor="middle"><text x="34" y="105">S</text><text x="226" y="105">N</text></g>
+<path d="M190 55H72m8-5-8 5 8 5M190 95H72m8-5-8 5 8 5M190 135H72m8-5-8 5 8 5" fill="none" stroke="var(--mut)" stroke-width="1.5"/>
+<line x1="130" y1="115" x2="130" y2="148" stroke="var(--mut)" stroke-dasharray="3 3"/>
+<g id="cg"><rect x="-52" y="-18" width="104" height="36" rx="5" fill="none" stroke="var(--pos)" stroke-width="6"/><circle r="5" fill="var(--mut)"/><g id="fa" fill="none" stroke="var(--ok)" stroke-width="4"><path d="M52 6V36m-6-8 6 8 6-8"/><path d="M52 6V36m-6-8 6 8 6-8" transform="rotate(180)"/></g></g>
+<g id="kg"><g id="sg" fill="none" stroke-width="8"><path id="sa" d="M21.9 2.3A22 22 0 0 1 -21.9 2.3"/><path id="sb" d="M-21.9 -2.3A22 22 0 0 1 21.9 -2.3"/></g><g id="rr" fill="none" stroke-width="6" style="display:none"><circle r="22" stroke="var(--pos)"/><circle r="13" stroke="var(--neg)"/></g></g>
+<rect x="122" y="139" width="16" height="9" fill="var(--fg)"/><rect x="122" y="192" width="16" height="9" fill="var(--fg)"/>
+<g fill="var(--fg)" font-size="14" font-weight="700"><text x="146" y="147">+</text><text x="146" y="201">−</text></g>
+<g id="ml" fill="var(--fg)" font-size="10"><text x="84" y="20">Spule (Rotor)</text><text x="154" y="180">Kommutator</text><text x="154" y="211">Bürsten</text></g></svg>
+<div><button class="b" id="mm" aria-pressed="false">Modus: Kommutator</button><p id="ms" aria-live="polite"></p><p class="m">Grüne Pfeile = Lorentzkraft F<sub>L</sub> (Länge = Stärke des Drehmoments).</p><button class="b" id="lm" aria-pressed="true">Beschriftung: an</button></div></div>
+
+<h3>Drei-Finger-Regel (rechte Hand)</h3><div class="card"><p class="m">Daumen = Strom (+ → −), Zeigefinger = Magnetfeld (N → S), Mittelfinger = Kraft: F = I × B.</p>
+<div class="row"><svg id="vs" viewBox="0 0 200 160" role="img" aria-label="Richtungen von Strom, Feld und Kraft"></svg><div><label>Strom I (Daumen)<br><select id="fi"></select></label><br><label>Feld B (Zeigefinger)<br><select id="fb"></select></label><p class="big" id="fr" aria-live="polite"></p><p class="m">Zeichnung: x nach rechts, y nach oben, z auf dich zu (schräg nach links unten).</p></div></div></div></section>
+
+<section id="quiz"><h2>Wissens-Check</h2><div class="card" id="qz"></div></section>
+
+<section id="tips"><h2>Spickzettel</h2><div class="g">
+<div class="card"><h3>❌ „Der Trafo funktioniert auch mit Gleichstrom.“</h3><p>✅ Ohne Änderung des Magnetfelds keine Induktion.</p></div>
+<div class="card"><h3>❌ „Schleifringe und Kommutator sind dasselbe.“</h3><p>✅ Schleifringe sind zwei geschlossene Ringe, der Strom wird nicht umgepolt. Der Kommutator ist ein geteilter Ring und polt nach jeder halben Umdrehung um.</p></div>
+<div class="card"><h3>❌ „Die Brücke liefert glatten Gleichstrom.“</h3><p>✅ Sie liefert pulsierenden Gleichstrom. Geglättet wird erst durch den Kondensator.</p></div>
+<div class="card"><h3>U–V–W</h3><p><b>U</b>rsache = Daumen (Strom), <b>V</b>ermittlung = Zeigefinger (Feld), <b>W</b>irkung = Mittelfinger (Kraft). Mit Elektronenflussrichtung: linke Hand.</p></div>
+<div class="card"><h3>Motor ↔ Generator</h3><p>Motor: Strom rein → Drehung raus. Generator: Drehung rein → Strom raus. Ein Elektroauto nutzt beim Bremsen den Motor als Generator.</p></div>
+<div class="card"><h3>Induktion in einem Satz</h3><p>Spannung entsteht nur, wenn sich das Magnetfeld in der Spule ändert. Ein ruhender Magnet liefert keine Spannung.</p></div></div></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),R=document.documentElement,cs=getComputedStyle(R),C=n=>cs.getPropertyValue(n).trim(),PI=Math.PI,fx=(v,d=1)=>v.toFixed(d).replace('.',',');
+let paused=matchMedia('(prefers-reduced-motion:reduce)').matches,t=0,last=0;
+const M=[["Generator","⚙️ Drehung","⚡ elektrische Energie","Elektromagnetische Induktion","#gen"],["Elektromotor","⚡ elektrische Energie","⚙️ Drehung","Lorentzkraft auf stromdurchflossene Leiter","#motor"],["Transformator","⚡ U₁ (Wechselspannung)","⚡ U₂ (größer oder kleiner)","Induktion durch ein sich änderndes Magnetfeld","#netz"]];
+$('#tb').innerHTML=M.map(r=>`<a class="card mc" href="${r[4]}"><h3>${r[0]}</h3><p class="fl"><span>${r[1]}</span><b>→</b><span>${r[2]}</span></p><p class="m">Prinzip: ${r[3]}</p></a>`).join('');
+$('#th').onclick=()=>{const d=R.dataset.theme?R.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=d?'light':'dark'};
+const pz=()=>{$('#pz').textContent=paused?'▶':'⏸';$('#pz').setAttribute('aria-pressed',paused)};pz();$('#pz').onclick=()=>{paused=!paused;pz()};
+const tg=(b,id)=>{b.onclick=()=>{const on=b.getAttribute('aria-pressed')!='true';b.setAttribute('aria-pressed',on);b.textContent='Beschriftung: '+(on?'an':'aus');$(id).style.display=on?'':'none'}};tg($('#lb'),'#lab');tg($('#lm'),'#ml');
+function cv(e){const d=devicePixelRatio||1,w=e.clientWidth,h=e.clientHeight,x=e.getContext('2d');if(e.width!=Math.round(w*d)){e.width=Math.round(w*d);e.height=Math.round(h*d)}x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);x.strokeStyle=C('--line');x.setLineDash([]);x.lineWidth=1;x.beginPath();x.moveTo(0,h/2);x.lineTo(w,h/2);x.stroke();return[x,w,h]}
+function ln(a,ys,c,dash,at){const[x,w,h]=a;x.beginPath();ys.forEach((y,i)=>x[i?'lineTo':'moveTo'](i/(ys.length-1)*w,h*(1-y)));x.strokeStyle=c;x.setLineDash(dash||[]);x.lineWidth=2.5;x.stroke();if(at!=null){x.beginPath();x.arc(at/(ys.length-1)*w,h*(1-ys[at]),6,0,2*PI);x.fillStyle=c;x.fill()}}
+/* Generator */
+$('#rg').innerHTML=[0,1,2,3].map(i=>`<g transform="rotate(${i*90} 120 120)"><rect x="106" y="34" width="28" height="76" rx="6" fill="${i%2?'var(--S)':'var(--N)'}"/><text x="120" y="66" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">${i%2?'S':'N'}</text></g>`).join('')+'<circle cx="120" cy="120" r="14" fill="var(--mut)"/>';
+const H=Array(300).fill(0);let ang=0;
+/* Signalkette */
+const pp=(x0,f)=>{let d='';for(let i=0;i<=40;i++)d+=(i?'L':'M')+(x0+i*2)+' '+(30-f(i/40)).toFixed(1);return d},
+FN=[u=>24*Math.sin(u*4*PI),u=>10*Math.sin(u*4*PI),u=>10*Math.abs(Math.sin(u*4*PI)),u=>10*(1-.25*((u*4)%1))],LB=['230 V ~','7 V ~','pulsierend','geglättet'],AR=['Trafo','Brücke','Glätten'];
+$('#pl').innerHTML=FN.map((f,i)=>{const x=i*133;return `<line x1="${x}" x2="${x+80}" y1="30" y2="30" stroke="var(--line)"/><path d="${pp(x,f)}" fill="none" stroke="var(--acc)" stroke-width="2.5"/><text x="${x+40}" y="80" text-anchor="middle" fill="var(--fg)" font-size="12" font-weight="700">${LB[i]}</text>`+(i<3?`<path d="M${x+88} 30h38m-7-5 7 5-7 5" fill="none" stroke="var(--mut)" stroke-width="2"/><text x="${x+107}" y="50" text-anchor="middle" fill="var(--mut)" font-size="11">${AR[i]}</text>`:'')}).join('');
+/* Trafo */
+const W=.06,P=240,dp=W/P,NOW=12,sn=(k,t0)=>Math.sin(2*PI*50*(t0+k*dp)),A=(f,t0)=>Array.from({length:P},(_,k)=>f(sn(k,t0)));
+function sm(t0,tau){let v=0;const o=[];for(let k=-200;k<P;k++){v=Math.max(Math.abs(sn(k,t0)),v*Math.exp(-dp/tau));if(k>=0)o.push(v)}return o}
+function tr(){const a=+$('#n1').value,b=+$('#n2').value,p=Math.max(2,Math.round(a/100)),s=Math.max(1,Math.round(b/10)),co=(n,x,c)=>Array.from({length:n},(_,i)=>{const y=30+(i+.5)*80/n;return `<line x1="${x-18}" x2="${x+18}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="${Math.min(3,80/n-.8)}"/>`}).join('');
+$('#v1').textContent=a;$('#v2').textContent=b;
+$('#tsv').innerHTML=`<rect x="52" y="18" width="156" height="104" fill="none" stroke="var(--mut)" stroke-width="14"/>${co(p,52,'var(--pos)')}${co(s,208,'var(--neg)')}<g fill="var(--fg)" font-size="11" text-anchor="middle"><text x="130" y="68">wechselndes</text><text x="130" y="82">Magnetfeld Φ</text><text x="52" y="9">U₁ = 230 V ~</text><text x="208" y="9">U₂ = ${fx(230*b/a)} V ~</text><text x="52" y="150">N_P = ${a}</text><text x="208" y="150">N_S = ${b}</text></g>`;
+$('#u2').textContent=`U₂ = 230 V · ${b}/${a} = ${fx(230*b/a)} V`}
+$('#n1').oninput=$('#n2').oninput=tr;tr();
+/* Brücke */
+const Nn={L:[20,70],T:[100,20],R:[180,70],B:[100,120]},E=[["L","T"],["R","T"],["B","L"],["B","R"]];
+$('#br').innerHTML=E.map((e,i)=>{const a=Nn[e[0]],b=Nn[e[1]],g=Math.atan2(b[1]-a[1],b[0]-a[0])*180/PI;return `<g id="d${i}" stroke-width="4"><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/><g transform="translate(${(a[0]+b[0])/2},${(a[1]+b[1])/2}) rotate(${g})"><polygon points="-8,-7 8,0 -8,7" stroke="none"/><line x1="8" y1="-8" x2="8" y2="8"/></g></g>`}).join('')+'<path d="M100 20H215V50M215 90V120H100" fill="none" stroke="var(--mut)" stroke-width="3"/><rect x="205" y="50" width="20" height="40" fill="none" stroke="var(--fg)" stroke-width="2"/><g fill="var(--fg)" font-size="12" font-weight="700"><text x="2" y="74">~</text><text x="186" y="92">~</text><text x="88" y="14">+</text><text x="88" y="140">−</text><text x="196" y="108">Last</text></g>';
+/* Motor */
+let slip=false,th=0,w=0;
+$('#mm').onclick=()=>{slip=!slip;th=0;w=0;$('#mm').textContent=slip?'Modus: Schleifringe':'Modus: Kommutator';$('#mm').setAttribute('aria-pressed',slip);$('#sg').style.display=slip?'none':'';$('#rr').style.display=slip?'':'none'};
+const D=[["→ nach rechts",[1,0,0]],["← nach links",[-1,0,0]],["↑ nach oben",[0,1,0]],["↓ nach unten",[0,-1,0]],["⊙ auf dich zu",[0,0,1]],["⊗ von dir weg",[0,0,-1]]];
+$('#fi').innerHTML=$('#fb').innerHTML=D.map((d,i)=>`<option value="${i}">${d[0]}</option>`).join('');$('#fb').value=2;
+function fr(){const a=D[$('#fi').value][1],b=D[$('#fb').value][1],c=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],f=D.find(d=>d[1].every((v,i)=>v==c[i])),q=v=>[100+v[0]*55-v[2]*28,85-v[1]*55+v[2]*28],vs=[[a,'var(--pos)','I'],[b,'var(--N)','B']];if(f)vs.push([f[1],'var(--ok)','F']);
+$('#vs').innerHTML='<path d="M15 85H185M100 10V155" stroke="var(--line)"/>'+vs.map(([v,k,l])=>{const e=q(v);return `<line x1="100" y1="85" x2="${e[0]}" y2="${e[1]}" stroke="${k}" stroke-width="4"/><circle cx="${e[0]}" cy="${e[1]}" r="10" fill="${k}"/><text x="${e[0]}" y="${e[1]+4}" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">${l}</text>`}).join('');
+$('#fr').textContent=f?'Kraft F_L (Mittelfinger): '+f[0]:'F_L = 0: Leiter parallel zum Feld'}
+$('#fi').onchange=$('#fb').onchange=fr;fr();
+/* Frame */
+function step(dt){t+=dt;const s=+$('#sp').value;ang+=s*dt;H.push(s/360*Math.sin(ang*PI/90));H.shift();if(!slip)th+=PI*dt;else{w+=(40*Math.cos(th)-1.5*w)*dt;th+=w*dt}}
+function draw(){
+const sp=+$('#sp').value,v=H[299];$('#rg').setAttribute('transform',`rotate(${ang} 120 120)`);$('#gc').style.fill=v>=0?'var(--pos)':'var(--neg)';$('#bulb').style.opacity=.15+.85*Math.abs(v);$('#bulb').style.boxShadow=`0 0 ${Math.abs(v)*24}px var(--pos)`;
+$('#ro').textContent=`n = ${fx(sp/360,2)} U/s → f = 2n = ${fx(sp/180,2)} Hz (2 Polpaare). Schneller drehen: höhere Frequenz und Amplitude. Im Stromnetz: 50 Hz.`;
+ln(cv($('#sc')),H.map(u=>.5+u*.45),C('--acc'),0,296);
+const ts=t*.03,rc=s=>.5+.45*Math.abs(s);let a=cv($('#c2'));ln(a,A(s=>.5+.45*s,ts),C('--mut'),[5,5]);const ys=A(rc,ts);ln(a,ys,C('--acc'),0,NOW);
+const pos=sn(NOW,ts)>=0;E.forEach((e,i)=>{const on=(i==0||i==3)==pos,g=$('#d'+i);g.style.stroke=g.style.fill=on?C('--acc'):C('--line')});
+$('#bs').textContent=pos?'Positive Halbwelle: Strom fließt über D1 und D4.':'Negative Halbwelle: Strom fließt über D2 und D3, am Ausgang bleibt + oben.';
+a=cv($('#c3'));const s=sm(ts,$('#cc').value*.008);ln(a,ys,C('--mut'),[5,5]);ln(a,s.map(v=>.5+.45*v),C('--acc'),0,NOW);
+$('#lv').style.height=s[NOW]*100+'%';$('#cs2').textContent=Math.abs(sn(NOW,ts))>=s[NOW]-1e-6?'Der Kondensator lädt sich auf.':'Der Kondensator gibt Ladung ab und hält die Spannung hoch.';
+$('#rp').textContent=`U_Brumm ≈ ${fx((Math.max(...s)-Math.min(...s))*100,0)} % von Û`;
+const dg=th*180/PI,k=slip?Math.cos(th):Math.abs(Math.cos(th));$('#cg').setAttribute('transform',`translate(130 95) rotate(${dg})`);$('#kg').setAttribute('transform',`translate(130 170) rotate(${dg})`);$('#fa').setAttribute('transform',`scale(1 ${k})`);
+const up=Math.cos(th)>0;$('#sb').style.stroke=up?'var(--pos)':'var(--neg)';$('#sa').style.stroke=up?'var(--neg)':'var(--pos)';
+$('#ms').textContent=slip?(Math.abs(w)<.15&&th>1?'Der Rotor steht in der Gleichgewichtslage: Spule ⟂ Feld, Drehmoment null. Der Strom wird nicht umgepolt, also keine Drehung.':'Der Strom fließt immer in dieselbe Richtung: Der Rotor dreht bis zur Gleichgewichtslage und pendelt.'):(Math.abs(Math.cos(th))<.12?'Bürsten auf dem Spalt: Der Strom ist kurz unterbrochen, der Rotor dreht durch Schwung weiter.':'Strom fließt, die Lorentzkraft dreht die Spule; der Kommutator polt rechtzeitig um.')}
+function loop(ts){const dt=Math.min((ts-last)/1000,.05);last=ts;if(!paused)step(dt);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+/* Quiz */
+const Q=[
+["Welche Energieumwandlung findet im Generator statt?",["mechanisch → elektrisch","elektrisch → mechanisch","chemisch → elektrisch"],0,"Der Generator wandelt Drehung in elektrische Energie um, der Motor umgekehrt."],
+["Warum liefert ein Generator Wechselspannung?",["Wegen der Bürsten","An der Spule laufen abwechselnd Nord- und Südpol vorbei, das Feld kehrt sich um","Wegen der Dioden im Stator"],1,"Das Magnetfeld in der Spule kehrt sich bei jeder halben Umdrehung um, und mit ihm das Vorzeichen der Spannung."],
+["Was ist Drehstrom?",["Gleichstrom","Wechselstrom mit immer 400 Hz","Drei Wechselspannungen, um 120° versetzt"],2,"Drehstrom besteht aus drei Wechselspannungen, die um ein Drittel der Periode versetzt sind (Steckdose 230 V, Starkstrom 400 V)."],
+["Wie verhält sich eine Diode im Stromkreis?",["Sie lässt Strom nur in einer Richtung durch","Sie lässt Strom in beide Richtungen durch","Sie speichert Ladung"],0,"Die Diode ist ein „Stromventil“: In Durchlassrichtung leitet sie, in Gegenrichtung sperrt sie."],
+["Wovon hängt die Lorentzkraft ab?",["Nur von der Länge des Leiters","Von I, der Länge l im Feld und der Flussdichte B","Nur von der Netzspannung"],1,"F_L = I · l · B (Leiter senkrecht zum Feld)."],
+["Warum sinkt die Spannung mit Glättungskondensator kaum noch ab?",["Er erhöht die Spannung des Trafos","Er wandelt Gleich- in Wechselstrom um","Er lädt sich an den Gipfeln auf und gibt in den Tälern Ladung ab"],2,"Übrig bleibt nur eine kleine Restwelligkeit, die Brummspannung."],
+["Was passiert, wenn man den Kommutator durch zwei Schleifringe ersetzt?",["Der Motor dreht schneller","Der Rotor pendelt kurz und bleibt in der Gleichgewichtslage stehen","Der Motor wird zum Generator"],1,"Ohne Umpolen wechselt das Drehmoment sein Vorzeichen, der Rotor pendelt und bleibt stehen."],
+["Warum kann man ein Handy nicht direkt mit einem Trafo ohne Gleichrichter laden?",["Der Trafo senkt die Spannung nicht","Der Trafo liefert zu wenig Strom","Er liefert Wechselspannung, der Akku braucht Gleichstrom"],2,"Der Trafo ändert nur die Höhe der Spannung, nicht die Stromart."],
+["Was passiert, wenn man die Anschlüsse an der Batterie des Motors vertauscht?",["Der Motor dreht sich andersherum","Nichts","Der Motor bleibt für immer stehen"],0,"Der Daumen (Strom) dreht um, das Feld bleibt: Auch die Lorentzkraft zeigt in die Gegenrichtung."],
+["Funktioniert ein Transformator mit Gleichstrom?",["Ja, aber schlechter","Ja, mit Kondensator","Nein, das Magnetfeld muss sich ändern"],2,"Gleichstrom erzeugt kein sich änderndes Magnetfeld, also keine Induktion."],
+["Aus 230 V sollen 7 V werden. Die Primärspule hat 1150 Windungen. Wie viele Windungen braucht die Sekundärspule?",35,0,"N_S = N_P · U_S / U_P = 1150 · 7 V / 230 V = 35 Windungen."],
+["Ein 5 cm langer Leiter mit 2 A liegt senkrecht in einem Feld mit B = 0,4 T. Wie groß ist die Lorentzkraft (in N)?",0.04,0,"F_L = I · l · B = 2 A · 0,05 m · 0,4 T = 0,04 N."]];
+let qi=0,sc=0;
+function rq(){const z=$('#qz');if(qi>=Q.length){z.innerHTML=`<h3>Ergebnis: ${sc} von ${Q.length}</h3><p>${sc>=10?'Sehr gut!':sc>=7?'Gut. Schau noch einmal in den Spickzettel.':'Lies die Abschnitte noch einmal und versuche es erneut.'}</p><button class="b" id="rs">Nochmal</button>`;$('#rs').onclick=()=>{qi=sc=0;rq()};return}
+const q=Q[qi],n=typeof q[1]=='number';
+z.innerHTML=`<progress max="${Q.length}" value="${qi}" aria-label="Fortschritt"></progress><p class="m">Frage ${qi+1} von ${Q.length}</p><h3>${q[0]}</h3>`+(n?`<div class="r"><input type="text" id="ni" inputmode="decimal" aria-label="Antwort"><button class="b" id="ck">Prüfen</button></div>`:q[1].map((x,i)=>`<button class="b o" data-i="${i}">${x}</button>`).join(''))+'<div id="fd" role="status"></div>';
+const fin=ok=>{if(ok)sc++;$('#fd').innerHTML=`<p><b>${ok?'✅ Richtig!':'❌ Leider falsch.'}</b> ${q[3]}</p><button class="b" id="nx">${qi==Q.length-1?'Ergebnis':'Weiter'}</button>`;$('#nx').onclick=()=>{qi++;rq()};$('#nx').focus()};
+if(n)$('#ck').onclick=()=>{const v=parseFloat($('#ni').value.replace(',','.'));$('#ck').disabled=true;fin(Math.abs(v-q[1])<1e-9)};
+else{const bs=z.querySelectorAll('.o');bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.disabled=true);b.classList.add(+b.dataset.i==q[2]?'ok':'no');bs[q[2]].classList.add('ok');fin(+b.dataset.i==q[2])})}}
+rq();
+</script></body></html>
